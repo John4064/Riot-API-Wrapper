@@ -1,3 +1,9 @@
 package models
 
-data class PerksDto()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class PerksDto(
+    val statPerks: PerkStatsDto,
+    val styles: ArrayList<PerkStyleDto>
+)
