@@ -4,6 +4,8 @@ import okhttp3.Request
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import models.MatchDto
+
 //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg for my acc uuid
 
 public val apiKey: String ="a"
@@ -34,6 +36,19 @@ fun testApiCall(){
     val arrayList = ArrayList<String>(elements)
 
     println(arrayList.get(0))
+    //https://americas.api.riotgames.com/lol/match/v5/matches/NA1_4942516854
+    //Singular match lookup
+    val request3 = Request.Builder()
+        .url("https://americas.api.riotgames.com/lol/match/v5/matches/NA1_4942516854")
+        .get()
+        .addHeader("X-Riot-Token", apiKey)
+        .build();
+    val tempResponse = client.newCall(request3).execute();//The Match Data Itself
+    val tempJsonData: String = tempResponse.body.string().replace("12AssistStreakCount","assistStreakCount")
+    println(tempJsonData)
+    val tempData : MatchDto = Json.decodeFromString<MatchDto>(tempJsonData)
+    println(tempData.info.)
+
 }
 
 fun main(args: Array<String>) {
