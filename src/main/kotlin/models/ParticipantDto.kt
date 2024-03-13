@@ -10,7 +10,7 @@ data class ParticipantDto(
     val baronKills: Int,
     val basicPings: Int,
     val bountyLevel: Int,
-    val challenges: ChallengesDto,
+    val challenges: ChallengesDto?=null,
     val champExperience: Int,
     val champLevel: Int,
     val championId: Int,
