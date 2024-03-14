@@ -8,7 +8,6 @@ import models.MatchDto
 
 //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg for my acc uuid
 
-public val apiKey: String ="a"
 
 fun testApiCall(){
     val client = OkHttpClient();
@@ -24,7 +23,7 @@ fun testApiCall(){
     val accountData : AccountDto = Json.decodeFromString<AccountDto>(jsonData)
     val puuid: String = accountData.puuid
     val request2 = Request.Builder()
-        .url("https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=50")
+        .url("https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=5")
         .get()
         .addHeader("X-Riot-Token", apiKey)
         .build();
@@ -58,7 +57,7 @@ fun testApiCall(){
         print(tempData.info.participants[7].championName +" ")
         print(tempData.info.participants[8].championName +" ")
         print(tempData.info.participants[9].championName +" ")
-        println("-")
+        print("- ")
     }
 
 }
