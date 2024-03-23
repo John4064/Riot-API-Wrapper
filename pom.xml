@@ -104,13 +104,16 @@
             <artifactId>kotlinx-serialization-core-jvm</artifactId>
             <version>1.5.1</version>
         </dependency>
-            <dependency>
-                <groupId>org.jetbrains.kotlinx</groupId>
-                <artifactId>kotlinx-serialization-json</artifactId>
-                <version>1.5.1</version>
-            </dependency>
-
-
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-serialization-json</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api-kotlin</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 
 </project>

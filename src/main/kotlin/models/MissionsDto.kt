@@ -5,17 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MissionsDto(
-    val playerScore0: Int,
-    val playerScore1: Int,
-    val playerScore10: Int,
-    val playerScore11: Int,
-    val playerScore2: Int,
-    val playerScore3: Int,
-    val playerScore4: Int,
-    val playerScore5: Int,
-    val playerScore6: Int,
-    val playerScore7: Int,
-    val playerScore8: Int,
-    val playerScore9: Int,
+    val PlayerScore0: Int,
+    val PlayerScore1: Int,
+    val PlayerScore10: Int,
+    val PlayerScore11: Int,
+    val PlayerScore2: Int,
+    val PlayerScore3: Int,
+    val PlayerScore4: Int,
+    val PlayerScore5: Int,
+    val PlayerScore6: Int,
+    val PlayerScore7: Int,
+    val PlayerScore8: Int,
+    val PlayerScore9: Int,
 
 )
