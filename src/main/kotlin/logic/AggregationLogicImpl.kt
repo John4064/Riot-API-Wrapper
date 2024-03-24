@@ -70,7 +70,6 @@ class AggregationLogicImpl : AggregationLogic,Logging{
                 .build();
             val response = httpClient.newCall(request).execute();//The Match Data Itself
             val jsonStringData: String = response.body.string().replace("12AssistStreakCount","assistStreakCount")
-            println(jsonStringData)
             Json.decodeFromString<MatchDto>(jsonStringData)
         }catch (e : Exception){
             logger.error("Error Occured gathering Match Data with matchID: $matchID")
