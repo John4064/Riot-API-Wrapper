@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import logic.interfaces.AggregationLogic
 import models.AccountDto
 import models.MatchDto
+import models.SummonerDto
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.lang.Exception
@@ -37,6 +38,24 @@ class AggregationLogicImpl : AggregationLogic,Logging{
             return null
         }
     }
+    //1 api call
+    override fun getSummonerData(userName:String, tagLine: String): SummonerDto? {
+        try{
+            val request = Request.Builder()
+                .url("https://americas.api.riotgames.com/riot/account/v4/summoners/by-riot-id/$userName/$tagLine")
+                .get()
+                .addHeader("X-Riot-Token", apiKey)
+                .build();
+            val response = httpClient.newCall(request).execute();
+            val jsonString: String = response.body.string()
+            return Json.decodeFromString<AccountDto>(jsonString)
+        }catch(e: Exception){
+            logger.error("Error Occured gathering Account Data with username: $userName")
+            logger.error(e.toString())
+            return null
+        }
+    }
+
 
     //2 api calls
     override fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String> {

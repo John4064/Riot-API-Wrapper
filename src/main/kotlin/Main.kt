@@ -30,6 +30,8 @@ fun main(args: Array<String>) {
         }
     }else{
         //Gather Ranked Data:
+        val accountData: AccountDto? = aggLogic.getAccountData("Tidal","RCS")
+        println(accountData.toString())
     }
     //add header X-Riot-Token = to RGAPI
 
