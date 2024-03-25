@@ -39,35 +39,51 @@ class AggregationLogicImpl : AggregationLogic,Logging{
         }
     }
     //1 api call
-    override fun getSummonerData(userName:String, tagLine: String): SummonerDto? {
+    override fun getSummonerDataByPuuid(puuid:String): SummonerDto? {
         try{
             val request = Request.Builder()
-                .url("https://americas.api.riotgames.com/riot/account/v4/summoners/by-riot-id/$userName/$tagLine")
+                .url("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/$puuid")
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
             val response = httpClient.newCall(request).execute();
             val jsonString: String = response.body.string()
-            return Json.decodeFromString<AccountDto>(jsonString)
+            return Json.decodeFromString<SummonerDto>(jsonString)
         }catch(e: Exception){
-            logger.error("Error Occured gathering Account Data with username: $userName")
+            logger.error("Error Occurred gathering Summoner Data with puuid: $puuid")
             logger.error(e.toString())
             return null
         }
     }
 
+    //2 api call
+    override fun getSummonerDataByUsername(userName: String, tagLine: String): SummonerDto?{
+        return try{
+            val accountData: AccountDto? = getAccountData(userName,tagLine)
+            if(accountData!= null){
+                val summonerData: SummonerDto? = getSummonerDataByPuuid(accountData.puuid)
+                summonerData
+            }else{
+                null
+            }
+        }catch(e: Exception){
+            logger.error("Error Occurred gathering Account Data with username: $userName")
+            logger.error(e.toString())
+            null
+        }
+    }
 
     //2 api calls
     override fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String> {
-        val accountDto = getAccountData(userName,tagLine)
-        val puuid = accountDto?.puuid
+        val accountData = getAccountData(userName,tagLine)
+        val puuid = accountData?.puuid
         val matchCountStr = matchCount.toString()
-        if(accountDto == null){
+        if(accountData == null){
             return ArrayList()
         }
 
         val request2 = Request.Builder()
-            .url("https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=$matchCount")
+            .url("https://na1.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=$matchCount")
             .get()
             .addHeader("X-Riot-Token", apiKey)
             .build();
@@ -83,7 +99,7 @@ class AggregationLogicImpl : AggregationLogic,Logging{
     override fun getMatchData(matchID: String) : MatchDto?{
         return try {
             val request = Request.Builder()
-                .url("https://americas.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
+                .url("https://na1.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();

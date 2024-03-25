@@ -9,10 +9,12 @@ import kotlinx.serialization.json.Json
 import logic.AggregationLogicImpl
 import logic.interfaces.AggregationLogic
 import models.MatchDto
+import models.SummonerDto
 
 //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg for my acc uuid
 
 fun main(args: Array<String>) {
+    //Todo: After storing the data in the DB have checks made for existing data to reduce # of api calls for puuid and summonerID
     val aggLogic : AggregationLogic = AggregationLogicImpl()
     if(false){
         val matchIDList: ArrayList<String> = aggLogic.getMatchIDs("Santa","Daddy",3)
@@ -30,9 +32,11 @@ fun main(args: Array<String>) {
         }
     }else{
         //Gather Ranked Data:
-        val accountData: AccountDto? = aggLogic.getAccountData("Tidal","RCS")
-        println(accountData.toString())
+//        val accountData: AccountDto? = aggLogic.getAccountData("Tidal","RCS")
+//        println(accountData.toString())
+        val summonerData: SummonerDto? = aggLogic.getSummonerDataByPuuid("qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg")
+        val sumData: SummonerDto? = aggLogic.getSummonerDataByUsername("Tidal","RCS")
+        println(summonerData.toString())
+        println(sumData.toString())
     }
-    //add header X-Riot-Token = to RGAPI
-
 }

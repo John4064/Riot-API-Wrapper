@@ -11,9 +11,11 @@ interface AggregationLogic {
 
     val apiKey: String
 
-    fun getAccountData(userName:String, tagLine: String): AccountDto?
+    fun getAccountData(userName: String, tagLine: String): AccountDto?
 
-    fun getSummonerData(userName:String, tagLine: String): SummonerDto?
+    fun getSummonerDataByPuuid(puuid: String): SummonerDto?
+
+    fun getSummonerDataByUsername(userName: String, tagLine: String): SummonerDto?
 
     fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String>
 
