@@ -7,32 +7,63 @@ import config.AppConfig
 import kotlinx.coroutines.runBlocking
 import logic.interfaces.IngestionLogic
 import models.SummonerDto
-import org.apache.logging.log4j.kotlin.Logging
+import io.github.oshai.kotlinlogging.KotlinLogging
+import models.AccountDto
+import models.MatchDto
 
-class IngestionLogicImpl : IngestionLogic, Logging {
+class IngestionLogicImpl : IngestionLogic {
 
-    override val mongoClient : MongoClient
-    override val mongodbUri : String
-    override val database : MongoDatabase
+    private lateinit var config: AppConfig
+    override var mongodbUri : String
+    override lateinit var mongoClient : MongoClient
+    override lateinit var summonerDatabase : MongoDatabase
+
+    private val logger = KotlinLogging.logger {}
 
     init {
-        val config = AppConfig()
+        val config: AppConfig = AppConfig()
         config.loadFromFile("application.properties")
-        mongodbUri= config.mongodbUri
-        mongoClient  =MongoClient.create(mongodbUri)
-        database = mongoClient.getDatabase("league-stats")
+        mongodbUri=config.mongodbUri
+        mongoClient = MongoClient.create(mongodbUri)
+        summonerDatabase= mongoClient.getDatabase("league-stats")
+        logger.info { "Ingestion logic is initialized." }
     }
 
-
     override fun insertSummonerData(summonerData: SummonerDto){
-        val collection = database.getCollection<SummonerDto>("Summoners")
+        val collection = summonerDatabase.getCollection<SummonerDto>("Summoners")
         runBlocking {
             try{
                 collection.insertOne(summonerData)
             }catch(e: MongoWriteException) {
-                logger.info("User already exists:  ${summonerData.name}" )
+                logger.error { "User already exists:  ${summonerData.name}" }
             }catch(e: Exception){
-                logger.error("Error occured inserting summoner: ${summonerData.name}")
+                logger.error { "Error occured inserting summoner: ${summonerData.name}" }
+            }
+        }
+    }
+
+    override fun insertAccountData(accountData: AccountDto){
+        val collection = summonerDatabase.getCollection<AccountDto>("Accounts")
+        runBlocking {
+            try{
+                collection.insertOne(accountData)
+            }catch(e: MongoWriteException) {
+                logger.error { "User already exists:  ${accountData.gameName}" }
+            }catch(e: Exception){
+                logger.error { "Error occured inserting summoner: ${accountData.gameName}" }
+            }
+        }
+    }
+
+    override fun insertMatchData(matchData: MatchDto){
+        val collection = summonerDatabase.getCollection<MatchDto>("Matches")
+        runBlocking {
+            try{
+                collection.insertOne(matchData)
+            }catch(e: MongoWriteException) {
+                logger.error { "Match exists already at id:  ${matchData.info.gameId}" }
+            }catch(e: Exception){
+                logger.error { "Error occurred inserting match: ${matchData.info.gameId}" }
             }
         }
     }

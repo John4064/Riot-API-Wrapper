@@ -9,11 +9,13 @@ import models.SummonerDto
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.lang.Exception
-import org.apache.logging.log4j.kotlin.Logging
-class AggregationLogicImpl : AggregationLogic,Logging{
+import io.github.oshai.kotlinlogging.KotlinLogging
+
+class AggregationLogicImpl : AggregationLogic{
     override var apiKey: String
     override val httpClient: OkHttpClient
         get() = OkHttpClient();
+    private val logger = KotlinLogging.logger {}
 
     init {
         val config = AppConfig()
@@ -77,7 +79,7 @@ class AggregationLogicImpl : AggregationLogic,Logging{
     override fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String> {
         val accountData = getAccountData(userName,tagLine)
         val puuid = accountData?.puuid
-        val matchCountStr = matchCount.toString()
+//        val matchCountStr = matchCount.toString()
         if(accountData == null){
             return ArrayList()
         }
