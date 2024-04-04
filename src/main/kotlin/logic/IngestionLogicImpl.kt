@@ -35,7 +35,7 @@ class IngestionLogicImpl : IngestionLogic {
             try{
                 collection.insertOne(summonerData)
             }catch(e: MongoWriteException) {
-                logger.error { "User already exists:  ${summonerData.name}" }
+                logger.info { "User already exists:  ${summonerData.name}" }
             }catch(e: Exception){
                 logger.error { "Error occured inserting summoner: ${summonerData.name}" }
             }
@@ -48,7 +48,7 @@ class IngestionLogicImpl : IngestionLogic {
             try{
                 collection.insertOne(accountData)
             }catch(e: MongoWriteException) {
-                logger.error { "User already exists:  ${accountData.gameName}" }
+                logger.info { "User already exists:  ${accountData.gameName}" }
             }catch(e: Exception){
                 logger.error { "Error occured inserting summoner: ${accountData.gameName}" }
             }
@@ -61,7 +61,7 @@ class IngestionLogicImpl : IngestionLogic {
             try{
                 collection.insertOne(matchData)
             }catch(e: MongoWriteException) {
-                logger.error { "Match exists already at id:  ${matchData.info.gameId}" }
+                logger.info { "Match exists already at id:  ${matchData.info.gameId}" }
             }catch(e: Exception){
                 logger.error { "Error occurred inserting match: ${matchData.info.gameId}" }
             }

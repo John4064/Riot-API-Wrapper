@@ -1,23 +1,15 @@
 package logic.interfaces
 
-import models.AccountDto
 import models.MatchDto
-import models.SummonerDto
 import okhttp3.OkHttpClient
 
 interface AggregationLogic {
 
+    var apiKey: String
     val httpClient: OkHttpClient
-
-    val apiKey: String
-
-    fun getAccountData(userName: String, tagLine: String): AccountDto?
-
-    fun getSummonerDataByPuuid(puuid: String): SummonerDto?
-
-    fun getSummonerDataByUsername(userName: String, tagLine: String): SummonerDto?
-
-    fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String>
-
-    fun getMatchData(matchID: String) :MatchDto?
+    //Fetch all Summoners from Matches
+    fun gatherPlayedWithAccounts(matches: ArrayList<MatchDto>)
+    //future parameters could be queue type,
+    fun gatherRankedGames(username: String, tagline: String):ArrayList<MatchDto>
+    //Fetch Accounts from matches
 }
