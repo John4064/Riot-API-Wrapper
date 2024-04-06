@@ -7,6 +7,7 @@ import logic.interfaces.RiotLogic
 import models.AccountDto
 import models.MatchDto
 import okhttp3.OkHttpClient
+import java.lang.Exception
 
 //Prebuilt functions like given a list of matches gather all linked accounts
 class AggregationLogicImpl : AggregationLogic {
@@ -27,12 +28,31 @@ class AggregationLogicImpl : AggregationLogic {
         TODO("Check all match data for a user and generate a list of users names")
     }
 
-    override fun gatherRankedGames(username: String, tagline: String) :ArrayList<MatchDto> {
-        val matches: ArrayList<MatchDto> = arrayListOf<MatchDto>()
+    override fun gatherRankedGames(username: String, tagline: String, matchCount: Int) :ArrayList<MatchDto> {
         //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg
-        
+        val idLists : ArrayList<String> = riotLogic.getMatchIDs(username,tagline,matchCount,98)
+        if (idLists.isNotEmpty()){
+                //Ping our Documents to find exisitng matches
+                //could grab list of al my ids to verify we dont make additional calls
+                val matches: ArrayList<MatchDto> = arrayListOf<MatchDto>()
+                for (matchId in idLists){
+                    try{
+                        //
+                        logger.info { "Gathering match data on ${matchId}" }
+                        val tempMatchData: MatchDto? =riotLogic.getMatchData(matchId)
+                        if (tempMatchData != null) {
+                            matches.add(tempMatchData)
+                        }
+                    }catch(e: Exception) {
+                        logger.error { "Error Occurred gathering Match IDs" }
+                        logger.error { e.toString() }
+                        continue
+                    }
+                }
+                return matches
 
-        return matches
+        }else{
+            return ArrayList()
+        }
     }
-
 }

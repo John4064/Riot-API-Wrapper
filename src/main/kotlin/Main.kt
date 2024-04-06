@@ -7,6 +7,7 @@ import logic.interfaces.RiotLogic
 import logic.interfaces.IngestionLogic
 import models.MatchDto
 import models.SummonerDto
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -16,5 +17,16 @@ private val logger = KotlinLogging.logger {}
 fun main(args: Array<String>) {
     //Todo: After storing the data in the DB have checks made for existing data to reduce # of api calls for puuid and summonerID
     val aggLogic: AggregationLogic = AggregationLogicImpl()
-    val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("Tidal","RCS")
+    val ingLogic: IngestionLogic = IngestionLogicImpl()
+    val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("Carnage","RCS",98)
+    try{
+        logger.info { "${matches.size} Matches to insert" }
+        for(match in matches){
+            ingLogic.insertMatchData(match)
+            logger.info { "Inserted Match ${match.info.gameId}" }
+        }
+    }catch(e: Exception) {
+        logger.error { "ERROR" }
+        logger.error { e.toString() }
+    }
 }

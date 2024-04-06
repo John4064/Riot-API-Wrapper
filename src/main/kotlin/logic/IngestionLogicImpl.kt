@@ -56,7 +56,7 @@ class IngestionLogicImpl : IngestionLogic {
     }
 
     override fun insertMatchData(matchData: MatchDto){
-        val collection = summonerDatabase.getCollection<MatchDto>("Matches")
+        val collection = summonerDatabase.getCollection<MatchDto>("Matches24")
         runBlocking {
             try{
                 collection.insertOne(matchData)

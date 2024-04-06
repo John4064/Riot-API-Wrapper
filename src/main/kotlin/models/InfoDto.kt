@@ -5,7 +5,7 @@ import okhttp3.MultipartBody
 
 @Serializable
 data class InfoDto(
-    val endOfGameResult: String,
+    val endOfGameResult: String?="",
     val gameCreation: Long,
     val gameDuration: Long,
     val gameEndTimestamp: Long,

@@ -17,6 +17,9 @@ class RiotLogicImpl : RiotLogic{
         get() = OkHttpClient();
     private val logger = KotlinLogging.logger {}
 
+    //Todo: convert to constant file
+    private val thisYearEpochTimeStamp: Long=1704067200
+
     init {
         val config = AppConfig()
         config.loadFromFile("application.properties")
@@ -35,8 +38,8 @@ class RiotLogicImpl : RiotLogic{
             val jsonString: String = response.body.string()
             return Json.decodeFromString<AccountDto>(jsonString)
         }catch(e: Exception){
-            logger.error("Error Occured gathering Account Data with username: $userName")
-            logger.error(e.toString())
+            logger.error { "Error Occured gathering Account Data with username: $userName" }
+            logger.error { e.toString() }
             return null
         }
     }
@@ -44,7 +47,7 @@ class RiotLogicImpl : RiotLogic{
     override fun getSummonerDataByPuuid(puuid:String): SummonerDto? {
         try{
             val request = Request.Builder()
-                .url("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/$puuid")
+                .url("https://americas.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/$puuid")
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
@@ -76,41 +79,49 @@ class RiotLogicImpl : RiotLogic{
     }
 
     //2 api calls
-    override fun getMatchIDs(userName: String, tagLine: String, matchCount: Int): ArrayList<String> {
+    override fun getMatchIDs(userName: String, tagLine: String, matchCount: Int, startCount: Int): ArrayList<String> {
         val accountData = getAccountData(userName,tagLine)
         val puuid = accountData?.puuid
+        val matchType: String = "ranked"
 //        val matchCountStr = matchCount.toString()
         if(accountData == null){
             return ArrayList()
         }
+        //startTime=$thisYearEpochTimeStamp
+        try{
+            val request2 = Request.Builder()
+                .url("https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?type=$matchType&start=$startCount&count=$matchCount")
+                .get()
+                .addHeader("X-Riot-Token", apiKey)
+                .build();
+            val matchIdResponse = httpClient.newCall(request2).execute();
 
-        val request2 = Request.Builder()
-            .url("https://na1.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=$matchCount")
-            .get()
-            .addHeader("X-Riot-Token", apiKey)
-            .build();
-        val matchIdResponse = httpClient.newCall(request2).execute();
+            val matchList: String = matchIdResponse.body.string().replace("\"","")
+            val elements = matchList.substring(1, matchList.length - 1).split(",")
+            // Create an ArrayList from the elements
+            return ArrayList<String>(elements)
+        }catch(e: Exception) {
+            logger.error { "Error Occurred gathering Match IDs" }
+            logger.error { e.toString() }
+            return ArrayList()
+        }
 
-        val matchList: String = matchIdResponse.body.string().replace("\"","")
-        val elements = matchList.substring(1, matchList.length - 1).split(",")
-        // Create an ArrayList from the elements
-        return ArrayList<String>(elements)
     }
 
     //1 api calls
     override fun getMatchData(matchID: String) : MatchDto?{
         return try {
             val request = Request.Builder()
-                .url("https://na1.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
+                .url("https://americas.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
             val response = httpClient.newCall(request).execute();//The Match Data Itself
-            val jsonStringData: String = response.body.string().replace("12AssistStreakCount","assistStreakCount")
+            val jsonStringData: String = response.body.string().replace("12AssistStreakCount","assistStreakCount").replace("playerScore","PlayerScore")
             Json.decodeFromString<MatchDto>(jsonStringData)
         }catch (e : Exception){
-            logger.error("Error Occured gathering Match Data with matchID: $matchID")
-            logger.error(e.toString())
+            logger.error { "Error Occured gathering Match Data with matchID: $matchID" }
+            logger.error { e.toString() }
             return null
         }
     }
