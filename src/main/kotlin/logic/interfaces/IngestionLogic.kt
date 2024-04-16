@@ -12,7 +12,7 @@ interface IngestionLogic {
 
     val mongodbUri: String
 
-    val summonerDatabase : MongoDatabase
+    val leagueDB : MongoDatabase
 
     fun insertSummonerData(summonerData: SummonerDto)
     fun insertAccountData(accountData: AccountDto)

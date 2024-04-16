@@ -16,21 +16,21 @@ class IngestionLogicImpl : IngestionLogic {
     private lateinit var config: AppConfig
     override var mongodbUri : String
     override lateinit var mongoClient : MongoClient
-    override lateinit var summonerDatabase : MongoDatabase
+    override lateinit var leagueDB : MongoDatabase
 
     private val logger = KotlinLogging.logger {}
 
     init {
-        val config: AppConfig = AppConfig()
+        config = AppConfig()
         config.loadFromFile("application.properties")
         mongodbUri=config.mongodbUri
         mongoClient = MongoClient.create(mongodbUri)
-        summonerDatabase= mongoClient.getDatabase("league-stats")
+        leagueDB= mongoClient.getDatabase("league-stats")
         logger.info { "Ingestion logic is initialized." }
     }
 
     override fun insertSummonerData(summonerData: SummonerDto){
-        val collection = summonerDatabase.getCollection<SummonerDto>("Summoners")
+        val collection = leagueDB.getCollection<SummonerDto>("Summoners")
         runBlocking {
             try{
                 collection.insertOne(summonerData)
@@ -43,7 +43,7 @@ class IngestionLogicImpl : IngestionLogic {
     }
 
     override fun insertAccountData(accountData: AccountDto){
-        val collection = summonerDatabase.getCollection<AccountDto>("Accounts")
+        val collection = leagueDB.getCollection<AccountDto>("Accounts")
         runBlocking {
             try{
                 collection.insertOne(accountData)
@@ -56,7 +56,7 @@ class IngestionLogicImpl : IngestionLogic {
     }
 
     override fun insertMatchData(matchData: MatchDto){
-        val collection = summonerDatabase.getCollection<MatchDto>("Matches24")
+        val collection = leagueDB.getCollection<MatchDto>("Matches24")
         runBlocking {
             try{
                 collection.insertOne(matchData)

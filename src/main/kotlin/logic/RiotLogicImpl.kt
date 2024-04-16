@@ -8,8 +8,8 @@ import models.MatchDto
 import models.SummonerDto
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.lang.Exception
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlin.Exception
 
 class RiotLogicImpl : RiotLogic{
     override var apiKey: String
@@ -111,6 +111,12 @@ class RiotLogicImpl : RiotLogic{
     //1 api calls
     override fun getMatchData(matchID: String) : MatchDto?{
         return try {
+            if(matchID==""){
+                throw Exception()
+            }
+            //Check our DB First
+
+
             val request = Request.Builder()
                 .url("https://americas.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
                 .get()
