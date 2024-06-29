@@ -18,12 +18,11 @@ fun main(args: Array<String>) {
     //Todo: After storing the data in the DB have checks made for existing data to reduce # of api calls for puuid and summonerID
     val aggLogic: AggregationLogic = AggregationLogicImpl()
     val ingLogic: IngestionLogic = IngestionLogicImpl()
-    val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("Carnage","RCS",5)
+    val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("T1 OK GOOD YES","na1",5)
     try{
         logger.info { "${matches.size} Matches to insert" }
         for(match in matches){
             ingLogic.insertMatchData(match)
-            logger.info { "Inserted Match ${match.info.gameId}" }
         }
     }catch(e: Exception) {
         logger.error { "ERROR" }

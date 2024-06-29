@@ -7,6 +7,7 @@ import models.SummonerDto
 import java.util.*
 import kotlin.collections.ArrayList
 
+//JUST SERVICE CLASS JUST TO SAVE TEST DATA
 class LocalLogicImpl {
 
     private val logger = KotlinLogging.logger {}

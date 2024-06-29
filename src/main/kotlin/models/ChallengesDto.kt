@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ChallengesDto(
     val assistStreakCount: Int?=0,
+    val InfernalScalePickup: Double?=0.0,
     val abilityUses: Int?=0,
     val acesBefore15Minutes: Int?=0,
     val alliedJungleMonsterKills: Int?=0,
@@ -39,6 +40,7 @@ data class ChallengesDto(
     val fastestLegendary: Double?=0.0,
     val fasterSupportQuestCompletion: Double?=0.0,
     val firstTurretKilled: Int?=0,
+    val fistBumpParticipation: Double?=0.0,
     val firstTurretKilledTime: Double?=0.0,
     val flawlessAces: Int?=0,
     val fullTeamTakedown: Int?=0,
@@ -131,6 +133,7 @@ data class ChallengesDto(
     val unseenRecalls: Int?=0,
     val visionScoreAdvantageLaneOpponent: Double?=0.0,
     val visionScorePerMinute: Double?=0.0,
+    val voidMonsterKill: Int?=0,
     val wardTakedowns: Int?=0,
     val wardTakedownsBefore20M: Int?=0,
     val wardsGuarded: Int

@@ -33,14 +33,14 @@ class AggregationLogicImpl : AggregationLogic {
 
     override fun gatherRankedGames(username: String, tagline: String, matchCount: Int) :ArrayList<MatchDto> {
         //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg
-        val idLists : ArrayList<String> = riotLogic.getMatchIDs(username,tagline,matchCount,0)
+        val idLists : ArrayList<String> = riotLogic.getMatchIDs(username,tagline,matchCount,150)
+
         if (idLists.isNotEmpty()){
                 //Ping our Documents to find exisitng matches
                 //could grab list of al my ids to verify we dont make additional calls
                 val matches: ArrayList<MatchDto> = arrayListOf<MatchDto>()
                 for (matchId in idLists){
                     try{
-                        //
                         retrievalLogic.getMatchData(matchId)
                         logger.info { "Gathering match data on ${matchId}" }
                         val tempMatchData: MatchDto? =riotLogic.getMatchData(matchId)

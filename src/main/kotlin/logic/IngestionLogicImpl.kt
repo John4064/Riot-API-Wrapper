@@ -10,6 +10,7 @@ import models.SummonerDto
 import io.github.oshai.kotlinlogging.KotlinLogging
 import models.AccountDto
 import models.MatchDto
+import kotlin.math.log
 
 class IngestionLogicImpl : IngestionLogic {
 
@@ -34,6 +35,7 @@ class IngestionLogicImpl : IngestionLogic {
         runBlocking {
             try{
                 collection.insertOne(summonerData)
+                logger.info { "Inserted Summoner data ${summonerData.name}" }
             }catch(e: MongoWriteException) {
                 logger.info { "User already exists:  ${summonerData.name}" }
             }catch(e: Exception){
@@ -47,6 +49,7 @@ class IngestionLogicImpl : IngestionLogic {
         runBlocking {
             try{
                 collection.insertOne(accountData)
+                logger.info { "Inserted Account data ${accountData.gameName}" }
             }catch(e: MongoWriteException) {
                 logger.info { "User already exists:  ${accountData.gameName}" }
             }catch(e: Exception){
@@ -60,6 +63,7 @@ class IngestionLogicImpl : IngestionLogic {
         runBlocking {
             try{
                 collection.insertOne(matchData)
+                logger.info { "Inserted Match ${matchData.info.gameId}" }
             }catch(e: MongoWriteException) {
                 logger.info { "Match exists already at id:  ${matchData.info.gameId}" }
             }catch(e: Exception){

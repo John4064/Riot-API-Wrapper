@@ -35,7 +35,7 @@ class RetrievalServiceImpl : RetrievalService {
                 val query= Document("","")
                 val result = collection.find<MatchDto>(query).limit(1).collect()
                 val data = result to MatchDto
-                logger.info { data.first }
+//                logger.info { data.first }
 //                return@runBlocking null
 //                collection.insertOne(matchData)
             }catch(e: MongoWriteException) {
