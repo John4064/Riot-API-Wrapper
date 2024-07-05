@@ -13,4 +13,6 @@ interface RetrievalService {
 //    fun getMatchData(matchId: String) : MatchDto?
     fun getMatchData(matchId: String)
 
+    fun gatherMatchIds()
+
 }
