@@ -7,8 +7,8 @@ import logic.interfaces.RetrievalService
 import logic.interfaces.RiotLogic
 import models.AccountDto
 import models.MatchDto
-import okhttp3.OkHttpClient
 import java.lang.Exception
+import okhttp3.OkHttpClient
 
 //Prebuilt functions like given a list of matches gather all linked accounts
 class AggregationLogicImpl : AggregationLogic {
@@ -34,26 +34,27 @@ class AggregationLogicImpl : AggregationLogic {
     override fun gatherRankedGames(username: String, tagline: String, matchCount: Int) :ArrayList<MatchDto> {
         //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg
         val idLists : ArrayList<String> = riotLogic.getMatchIDs(username,tagline,matchCount,0)
-
         if (idLists.isNotEmpty()){
-                //Ping our Documents to find exisitng matches
-                //could grab list of al my ids to verify we dont make additional calls
-                val matches: ArrayList<MatchDto> = arrayListOf<MatchDto>()
-                for (matchId in idLists){
-                    try{
-                        retrievalLogic.getMatchData(matchId)
-                        logger.info { "Gathering match data on ${matchId}" }
-                        val tempMatchData: MatchDto? =riotLogic.getMatchData(matchId)
-                        if (tempMatchData != null) {
-                            matches.add(tempMatchData)
-                        }
-                    }catch(e: Exception) {
-                        logger.error { "Error Occurred gathering Match IDs" }
-                        logger.error { e.toString() }
-                        continue
+            println(idLists.toString())
+            //Ping our Documents to find exisitng matches
+            //could grab list of al my ids to verify we dont make additional calls
+            val matches: ArrayList<MatchDto> = arrayListOf<MatchDto>()
+            for (matchId in idLists){
+                try{
+    //                        retrievalLogic.getMatchData(matchId)
+                    logger.info { "Gathering match data on ${matchId}" }
+                    val tempMatchData: MatchDto? =riotLogic.getMatchData(matchId)
+                    if (tempMatchData != null) {
+                        matches.add(tempMatchData)
                     }
+                }catch(e: Exception) {
+                    println(e.toString())
+                    logger.error { "Error Occurred gathering Match IDs" }
+                    logger.error { e.toString() }
+                    continue
                 }
-                return matches
+            }
+            return matches
 
         }else{
             return ArrayList()

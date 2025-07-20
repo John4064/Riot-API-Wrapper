@@ -10,9 +10,8 @@ interface RetrievalService {
     var leagueDB : MongoDatabase
 
 
-//    fun getMatchData(matchId: String) : MatchDto?
-    fun getMatchData(matchId: String)
-
-    fun gatherMatchIds()
+//    fun getMatchData(matchId: String)
+//
+//    fun gatherMatchIds()
 
 }

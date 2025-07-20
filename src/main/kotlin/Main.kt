@@ -21,13 +21,13 @@ fun main(args: Array<String>) {
     val aggLogic: AggregationLogic = AggregationLogicImpl()
     val ingLogic: IngestionLogic = IngestionLogicImpl()
     val retrLogic: RetrievalService = RetrievalServiceImpl()
-//    val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("T1 OK GOOD YES","na1",5)
     try{
 //        logger.info { "${matches.size} Matches to insert" }
 //        for(match in matches){
 //            ingLogic.insertMatchData(match)
 //        }
-        retrLogic.gatherMatchIds()
+        val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("Tidal","RCS",1)
+        logger.info { matches.toString() }
     }catch(e: Exception) {
         logger.error { "ERROR" }
         logger.error { e.toString() }
