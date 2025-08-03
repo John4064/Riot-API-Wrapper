@@ -20,23 +20,23 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.kotlin.serialization)
-    implementation(libs.org.jetbrains.kotlin.kotlin.stdlib)
-    implementation(libs.com.squareup.okhttp3.okhttp)
-    implementation(libs.org.jetbrains.kotlinx.kotlinx.serialization.core.jvm)
-    implementation(libs.org.jetbrains.kotlinx.kotlinx.serialization.json)
-    implementation(libs.org.mongodb.mongodb.driver.kotlin.coroutine)
-    implementation(libs.org.mongodb.bson.kotlinx)
-    implementation(libs.io.github.oshai.kotlin.logging.jvm)
-//    implementation("org.slf4j:slf4j-implementation:1.7.25")
-    implementation("org.slf4j:slf4j-simple:1.7.25")
-    implementation(libs.org.jetbrains.exposed.exposed.core)
-    implementation(libs.org.jetbrains.exposed.exposed.jdbc)
-    implementation(libs.org.jetbrains.exposed.exposed.dao)
-    implementation(libs.org.jetbrains.exposed.exposed.json)
-    implementation(libs.org.postgresql.postgresql)
-    testImplementation(libs.org.jetbrains.kotlin.kotlin.test.junit5)
-    testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
+    testImplementation( "org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-serialization:1.9.22")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.0.0")
+    implementation("org.mongodb:bson-kotlinx:5.0.0")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.0.2")
+    implementation("org.slf4j:slf4j-api:1.7.25")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation("org.jetbrains.exposed:exposed-core:1.0.0-beta-4")
+    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0-beta-4")
+    implementation("org.jetbrains.exposed:exposed-dao:1.0.0-beta-4")
+    implementation("org.jetbrains.exposed:exposed-json:1.0.0-beta-4")
+    implementation("org.postgresql:postgresql:42.7.7")
 }
 
 group = "com.code.catalyst"
@@ -45,9 +45,9 @@ description = "Backend Data Aggregator"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
-}
+//tasks.withType<Javaimplementation>() {
+//    options.encoding = "UTF-8"
+//}
 
 tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"

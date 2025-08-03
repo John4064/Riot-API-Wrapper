@@ -1,16 +1,13 @@
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.serialization.json.Json
 import logic.AggregationLogicImpl
-import logic.RiotLogicImpl
 import logic.IngestionLogicImpl
 import logic.RetrievalServiceImpl
 import logic.interfaces.AggregationLogic
-import logic.interfaces.RiotLogic
 import logic.interfaces.IngestionLogic
 import logic.interfaces.RetrievalService
 import models.MatchDto
-import models.SummonerDto
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.ArrayList
 
 //qIjNttqlsU_i_1B22gH9e3Bw0ugbFdGCIIxrGv0N-Te0d1OElK_dMCpvLjI-K6q4ECBpdWW62RcgVg for my acc uuid
@@ -22,14 +19,11 @@ fun main(args: Array<String>) {
     val ingLogic: IngestionLogic = IngestionLogicImpl()
     val retrLogic: RetrievalService = RetrievalServiceImpl()
     try{
-//        logger.info { "${matches.size} Matches to insert" }
-//        for(match in matches){
-//            ingLogic.insertMatchData(match)
-//        }
         val matches: ArrayList<MatchDto> = aggLogic.gatherRankedGames("Tidal","RCS",1)
-        logger.info { matches.toString() }
+        ingLogic.insertMatchData(matches[0])
+        logger.info { Json.encodeToString(matches) }
     }catch(e: Exception) {
-        logger.error { "ERROR" }
+        logger.error { "Generic Catch All Error" }
         logger.error { e.toString() }
     }
 }

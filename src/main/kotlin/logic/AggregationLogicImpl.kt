@@ -5,7 +5,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import logic.interfaces.AggregationLogic
 import logic.interfaces.RetrievalService
 import logic.interfaces.RiotLogic
-import models.AccountDto
 import models.MatchDto
 import java.lang.Exception
 import okhttp3.OkHttpClient

@@ -123,7 +123,10 @@ class RiotLogicImpl : RiotLogic{
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
             val response = httpClient.newCall(request).execute();//The Match Data Itself
+            logger.info{response}
             val jsonStringData: String = response.body.string().replace("12AssistStreakCount","assistStreakCount").replace("playerScore","PlayerScore")
+            logger.info { jsonStringData }
+
             Json.decodeFromString<MatchDto>(jsonStringData)
         }catch (e : Exception){
             logger.error { "Error Occured gathering Match Data with matchID: $matchID" }

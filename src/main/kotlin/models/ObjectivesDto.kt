@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ObjectivesDto(
+    val atakhan: ObjectiveDto?=null,
     val baron: ObjectiveDto?=null,
     val champion: ObjectiveDto?=null,
     val dragon: ObjectiveDto?=null,

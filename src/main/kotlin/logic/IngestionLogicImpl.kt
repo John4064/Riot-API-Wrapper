@@ -1,40 +1,33 @@
 package logic
 
 import com.mongodb.MongoWriteException
-import com.mongodb.kotlin.client.coroutine.MongoClient
-import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import config.AppConfig
+import config.connectToDatabase
 import kotlinx.coroutines.runBlocking
 import logic.interfaces.IngestionLogic
 import models.SummonerDto
 import io.github.oshai.kotlinlogging.KotlinLogging
 import models.AccountDto
 import models.MatchDto
-import kotlin.math.log
 
 class IngestionLogicImpl : IngestionLogic {
 
     private lateinit var config: AppConfig
-    override var mongodbUri : String
-    override lateinit var mongoClient : MongoClient
-    override lateinit var leagueDB : MongoDatabase
 
     private val logger = KotlinLogging.logger {}
 
     init {
         config = AppConfig()
         config.loadFromFile("application.properties")
-        mongodbUri=config.mongodbUri
-        mongoClient = MongoClient.create(mongodbUri)
-        leagueDB= mongoClient.getDatabase("league-stats")
+        connectToDatabase()
         logger.info { "Ingestion logic is initialized." }
     }
 
     override fun insertSummonerData(summonerData: SummonerDto){
-        val collection = leagueDB.getCollection<SummonerDto>("Summoners")
+//        val collection = leagueDB.getCollection<SummonerDto>("Summoners")
         runBlocking {
             try{
-                collection.insertOne(summonerData)
+//                collection.insertOne(summonerData)
                 logger.info { "Inserted Summoner data ${summonerData.name}" }
             }catch(e: MongoWriteException) {
                 logger.info { "User already exists:  ${summonerData.name}" }
@@ -45,10 +38,10 @@ class IngestionLogicImpl : IngestionLogic {
     }
 
     override fun insertAccountData(accountData: AccountDto){
-        val collection = leagueDB.getCollection<AccountDto>("Accounts")
+//        val collection = leagueDB.getCollection<AccountDto>("Accounts")
         runBlocking {
             try{
-                collection.insertOne(accountData)
+//                collection.insertOne(accountData)
                 logger.info { "Inserted Account data ${accountData.gameName}" }
             }catch(e: MongoWriteException) {
                 logger.info { "User already exists:  ${accountData.gameName}" }
@@ -59,10 +52,9 @@ class IngestionLogicImpl : IngestionLogic {
     }
 
     override fun insertMatchData(matchData: MatchDto){
-        val collection = leagueDB.getCollection<MatchDto>("Matches24")
+        logger.info { "ABC" }
         runBlocking {
             try{
-                collection.insertOne(matchData)
                 logger.info { "Inserted Match ${matchData.info.gameId}" }
             }catch(e: MongoWriteException) {
                 logger.info { "Match exists already at id:  ${matchData.info.gameId}" }

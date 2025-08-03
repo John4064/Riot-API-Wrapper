@@ -7,6 +7,7 @@ fun connectToDatabase() {
     val dbUser: String = System.getenv("dbUser") ?: ""
     val dbPass: String = System.getenv("dbPass") ?: ""
     val dbUrl: String = System.getenv("dbUrl")
+    println("DB USER: $dbUser")
     Database.connect(
         url = "jdbc:postgresql://$dbUrl",
         driver = "org.postgresql.Driver",

@@ -1,8 +1,10 @@
 package models
 
 import kotlinx.serialization.Serializable
-import okhttp3.MultipartBody
 
+//Comment below lines out
+//@OptIn(ExperimentalSerializationApi::class)
+//@JsonIgnoreUnknownKeys
 @Serializable
 data class InfoDto(
     val endOfGameResult: String?="",

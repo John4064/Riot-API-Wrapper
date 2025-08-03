@@ -1,21 +1,11 @@
 package logic
 
-import com.mongodb.MongoWriteException
-import com.mongodb.kotlin.client.coroutine.MongoClient
-import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import config.AppConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.runBlocking
 import logic.interfaces.RetrievalService
-import models.MatchDto
-import org.bson.Document
 
 class RetrievalServiceImpl : RetrievalService {
     private lateinit var config: AppConfig
-    override var mongodbUri : String
-    override lateinit var mongoClient : MongoClient
-    override lateinit var leagueDB : MongoDatabase
 
     private val logger = KotlinLogging.logger {}
 
@@ -23,9 +13,7 @@ class RetrievalServiceImpl : RetrievalService {
 
         config = AppConfig()
         config.loadFromFile("application.properties")
-        mongodbUri = config.mongodbUri
-//        mongoClient = MongoClient.create(mongodbUri)
-//        leagueDB= mongoClient.getDatabase("league-stats")
+        //Rewrite mongo logic
         logger.info { "Retrieval logic is initialized." }
     }
 
