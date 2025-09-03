@@ -20,6 +20,10 @@ repositories {
 }
 
 dependencies {
+
+    val exposedVersion = "1.0.0-beta-4"
+
+
     testImplementation( "org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
     implementation("org.jetbrains.kotlin:kotlin-serialization:1.9.22")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
@@ -29,13 +33,20 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.0.0")
     implementation("org.mongodb:bson-kotlinx:5.0.0")
+
+
     implementation("io.github.oshai:kotlin-logging-jvm:5.0.2")
-    implementation("org.slf4j:slf4j-api:1.7.25")
     implementation("ch.qos.logback:logback-classic:1.5.18")
-    implementation("org.jetbrains.exposed:exposed-core:1.0.0-beta-4")
-    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0-beta-4")
-    implementation("org.jetbrains.exposed:exposed-dao:1.0.0-beta-4")
-    implementation("org.jetbrains.exposed:exposed-json:1.0.0-beta-4")
+    implementation("com.github.loki4j:loki-logback-appender:1.5.1")
+
+
+
+    implementation("org.jetbrains.exposed:exposed-core:${exposedVersion}")
+    implementation("org.jetbrains.exposed:exposed-jdbc:${exposedVersion}")
+    implementation("org.jetbrains.exposed:exposed-dao:${exposedVersion}")
+    implementation("org.jetbrains.exposed:exposed-json:${exposedVersion}")
+    implementation("org.jetbrains.exposed:exposed-kotlin-datetime:${exposedVersion}")
+
     implementation("org.postgresql:postgresql:42.7.7")
 }
 

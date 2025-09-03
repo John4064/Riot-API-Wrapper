@@ -1,10 +1,14 @@
 package entities
 
+import kotlinx.serialization.json.Json
+import models.ParticipantDto
+import models.TeamDto
 import org.jetbrains.exposed.v1.core.Table
 import org.jetbrains.exposed.v1.json.jsonb
 
-object Info : Table("Info") {
-    val infoId = long("info_id").autoIncrement().primaryKey()
+object Info : Table("info") {
+    val infoId = long("info_id").autoIncrement()
+    override val primaryKey = PrimaryKey(infoId)
     val endOfGameResult = varchar("end_of_game_result", length = 255).nullable()
     val gameCreation = long("game_creation").nullable()
     val gameDuration = long("game_duration").nullable()
@@ -16,9 +20,9 @@ object Info : Table("Info") {
     val gameType = varchar("game_type", 255).nullable()
     val gameVersion = varchar("game_version", 255).nullable()
     val mapId = integer("map_id").nullable()
-    val participants = jsonb("participants", org.jetbrains.exposed.v1.json.Json.Default).nullable(false) // non-null JSONB
+    val participants = jsonb<ArrayList<ParticipantDto>>("participants", Json)
     val platformId = varchar("platform_id", 255).nullable()
     val queueId = integer("queue_id").nullable()
-    val teams = jsonb("teams", org.jetbrains.exposed.v1.json.Json.Default).nullable(false) // non-null JSONB
+    val teams = jsonb<ArrayList<TeamDto>>("teams", Json)
     val tournamentCode = varchar("tournament_code", 255).nullable()
 }

@@ -55,8 +55,8 @@ class RiotLogicImpl : RiotLogic{
             val jsonString: String = response.body.string()
             return Json.decodeFromString<SummonerDto>(jsonString)
         }catch(e: Exception){
-            logger.error("Error Occurred gathering Summoner Data with puuid: $puuid")
-            logger.error(e.toString())
+            logger.error { "Error Occurred gathering Summoner Data with puuid: $puuid" }
+            logger.error { e.toString() }
             return null
         }
     }
@@ -72,8 +72,8 @@ class RiotLogicImpl : RiotLogic{
                 null
             }
         }catch(e: Exception){
-            logger.error("Error Occurred gathering Account Data with username: $userName")
-            logger.error(e.toString())
+            logger.error { "Error Occurred gathering Account Data with username: $userName" }
+            logger.error { e.toString() }
             null
         }
     }
@@ -83,22 +83,20 @@ class RiotLogicImpl : RiotLogic{
         val accountData = getAccountData(userName,tagLine)
         val puuid = accountData?.puuid
         val matchType: String = "ranked"
-//        val matchCountStr = matchCount.toString()
         if(accountData == null){
             return ArrayList()
         }
         //startTime=$thisYearEpochTimeStamp
         try{
-            val request2 = Request.Builder()
+            val request = Request.Builder()
                 .url("https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?type=$matchType&start=$startCount&count=$matchCount")
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
-            val matchIdResponse = httpClient.newCall(request2).execute();
+            val matchIdResponse = httpClient.newCall(request).execute();
 
             val matchList: String = matchIdResponse.body.string().replace("\"","")
             val elements = matchList.substring(1, matchList.length - 1).split(",")
-            // Create an ArrayList from the elements
             return ArrayList<String>(elements)
         }catch(e: Exception) {
             logger.error { "Error Occurred gathering Match IDs" }
@@ -114,19 +112,13 @@ class RiotLogicImpl : RiotLogic{
             if(matchID==""){
                 throw Exception()
             }
-            //Check our DB First
-
-
             val request = Request.Builder()
                 .url("https://americas.api.riotgames.com/lol/match/v5/matches/%s".format(matchID))
                 .get()
                 .addHeader("X-Riot-Token", apiKey)
                 .build();
             val response = httpClient.newCall(request).execute();//The Match Data Itself
-            logger.info{response}
             val jsonStringData: String = response.body.string().replace("12AssistStreakCount","assistStreakCount").replace("playerScore","PlayerScore")
-            logger.info { jsonStringData }
-
             Json.decodeFromString<MatchDto>(jsonStringData)
         }catch (e : Exception){
             logger.error { "Error Occured gathering Match Data with matchID: $matchID" }
