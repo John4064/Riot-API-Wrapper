@@ -86,7 +86,6 @@ class IngestionLogicImpl : IngestionLogic {
         runBlocking {
             try{
                 userMatchRepo.insertUserMatch(matchId,username,tagline)
-                logger.info { "Inserted User Match ${"$username#$tagline"}" }
             }catch(e: Exception){
                 logger.error { "User Error occurred inserting user match: ${username+tagline}" }
                 logger.error { e.toString() }

@@ -17,6 +17,7 @@ private val logger = KotlinLogging.logger {}
 class UserMatchRepo {
 
     fun insertUserMatch(newMatchId: String,username: String, tagline: String) =transaction{
+        //Perhaps add to UserMatch table a column for game date
             UserMatch.insertIgnore{ row ->
                 row[userId] = "$username#$tagline"
                 row[matchId] = newMatchId
