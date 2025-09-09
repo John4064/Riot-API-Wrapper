@@ -171,3 +171,14 @@ SELECT c.champion_id,
 FROM champion_raw
          JOIN champions c ON c.id = data->>'id';
 
+create view champion_card AS(
+select c.name, version, title, blurb, (CASE WHEN difficulty =10 THEN 'Impossible'  WHEN difficulty =1 THEN 'Beginner'
+                                           WHEN difficulty < 10 and difficulty>7 THEN 'Hard'
+                                           WHEN difficulty > 1 and difficulty<4 THEN 'Easy' else 'Normal' END) as difficulty,
+    string_agg(t.name, ',') as tags, im."full" as image_name from champions c
+    join champion_info ci on ci.champion_id=c.champion_id
+    join champion_tags ct on ct.champion_id=c.champion_id
+    join tags t on ct.tag_id=t.tag_id
+    join champion_images im on im.champion_id=c.champion_id
+group by c.champion_id,ci.champion_id,im.champion_id
+order by c.champion_id);
